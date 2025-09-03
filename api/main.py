@@ -7,6 +7,8 @@ app = FastAPI()
 
 @app.post("/notes/", response_model=Note)
 def create_note(note: NoteCreate, db: Session = Depends(get_db)):
+    if not note.title or not note.content:
+        raise HTTPException(status_code=400, detail="Invalid input")
     db_note = DBNote(title=note.title, content=note.content)
     db.add(db_note)
     db.commit()
@@ -26,6 +28,8 @@ def read_note(note_id: int, db: Session = Depends(get_db)):
 
 @app.put("/notes/{note_id}", response_model=Note)
 def update_note(note_id: int, note: NoteCreate, db: Session = Depends(get_db)):
+    if not note.title or not note.content:
+        raise HTTPException(status_code=400, detail="Invalid input")
     db_note = db.query(DBNote).filter(DBNote.id == note_id).first()
     if db_note is None:
         raise HTTPException(status_code=404, detail="Note not found")

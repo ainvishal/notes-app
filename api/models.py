@@ -9,6 +9,5 @@ class NoteCreate(NoteBase):
 
 class Note(NoteBase):
     id: int
-
     class Config:
         from_attributes = True
