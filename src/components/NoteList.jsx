@@ -41,8 +41,8 @@ const NoteList = () => {
     }
   };
 
-  // const getShareUrl = (id) => `${window.location.origin}/note/${id}`;
-  const getShareUrl = (id) => `https://notes-app-ten-iota.vercel.app/note/${id}`;
+  const getShareUrl = (id) => `${window.location.origin}/note/${id}`;
+  // const getShareUrl = (id) => `https://notes-app-ten-iota.vercel.app/note/${id}`;
 
   return (
     <div className="container mx-auto p-4 max-w-2xl">
