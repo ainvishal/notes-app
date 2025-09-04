@@ -5,7 +5,6 @@ from database import get_db, Note as DBNote
 from models import NoteCreate, Note
 import logging
 
-# Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
