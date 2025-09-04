@@ -1,16 +1,13 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import NoteForm from './components/NoteForm';
-import NoteList from './components/NoteList';
-import SharedNote from './components/SharedNote';
+import NoteList from './components/NoteList.jsx';
+import SharedNote from './components/SharedNote.jsx';
 
 function App() {
   return (
     <Router>
-      <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-6">Notes App</h1>
+      <div className="App">
         <Routes>
-          <Route path="/" element={<><NoteForm /><NoteList /></>} />
+          <Route path="/" element={<NoteList />} />
           <Route path="/note/:id" element={<SharedNote />} />
         </Routes>
       </div>
