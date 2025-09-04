@@ -1,9 +1,18 @@
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from database import get_db, Note as DBNote
 from models import NoteCreate, Note
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://notes-app-u21i-km36618vh-vishal-aindalas-projects.vercel.app"],  # Replace with your frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/notes/", response_model=Note)
 def create_note(note: NoteCreate, db: Session = Depends(get_db)):
