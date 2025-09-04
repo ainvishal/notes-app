@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import NoteForm from './NoteForm';
-import NoteList from './NoteList';
-import SharedNote from './SharedNote';
+import NoteForm from './components/NoteForm';
+import NoteList from './components/NoteList';
+import SharedNote from './components/SharedNote';
 
 function App() {
   return (
