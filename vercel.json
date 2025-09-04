@@ -12,7 +12,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://notes-app-k5nu-7f6a4shm1-vishal-aindalas-projects.vercel.app/$1"
+      "destination": "https://notes-app-ten-iota.vercel.app/$1"
     }
   ]
 }
