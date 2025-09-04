@@ -3,30 +3,34 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const SharedNote = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Get note ID from URL
   const [note, setNote] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchNote = async () => {
       try {
         const response = await axios.get(`/api/notes/${id}`);
         setNote(response.data);
-      } catch (error) {
-        console.error('Note not found');
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to load note: ' + (err.response?.data?.detail || err.message));
+        setLoading(false);
       }
     };
     fetchNote();
   }, [id]);
 
-  if (!note) return <p className="text-center text-gray-500 mt-10">Loading...</p>;
+  if (loading) return <div className="text-center p-6">Loading...</div>;
+  if (error) return <div className="text-center p-6 text-red-500">{error}</div>;
+  if (!note) return <div className="text-center p-6">Note not found</div>;
 
   return (
-    <div className="container mx-auto p-4 max-w-2xl">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Shared Note</h1>
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold text-gray-800">{note.title}</h2>
-        <p className="text-gray-600 mt-2">{note.content}</p>
-      </div>
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
+      <h1 className="text-2xl font-bold mb-4">{note.title}</h1>
+      <p className="text-gray-700">{note.content}</p>
+      <p className="text-sm text-gray-500 mt-4">Note ID: {note.id}</p>
     </div>
   );
 };

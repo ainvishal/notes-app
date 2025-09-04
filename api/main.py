@@ -56,15 +56,10 @@ def read_notes(db: Session = Depends(get_db)):
 
 @app.get("/notes/{note_id}", response_model=Note)
 def read_note(note_id: int, db: Session = Depends(get_db)):
-    try:
-        db_note = db.query(DBNote).filter(DBNote.id == note_id).first()
-        if db_note is None:
-            raise HTTPException(status_code=404, detail="Note not found")
-        logger.info(f"Retrieved note with id {note_id}")
-        return db_note
-    except Exception as e:
-        logger.error(f"Error reading note {note_id}: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+    db_note = db.query(DBNote).filter(DBNote.id == note_id).first()
+    if db_note is None:
+        raise HTTPException(status_code=404, detail="Note not found")
+    return db_note
 
 @app.put("/notes/{note_id}", response_model=Note)
 def update_note(note_id: int, note: NoteCreate, db: Session = Depends(get_db)):
