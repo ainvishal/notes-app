@@ -4,11 +4,17 @@ import axios from 'axios';
 const NoteForm = ({ onNoteAdded, editingNote, onNoteUpdated }) => {
   const [title, setTitle] = useState(editingNote ? editingNote.title : '');
   const [content, setContent] = useState(editingNote ? editingNote.content : '');
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!title.trim() || !content.trim()) {
+      setError('Title and content cannot be empty');
+      return;
+    }
     const note = { title, content };
     try {
+      setError(null);
       if (editingNote) {
         await axios.put(`/api/notes/${editingNote.id}`, note);
         onNoteUpdated();
@@ -19,12 +25,14 @@ const NoteForm = ({ onNoteAdded, editingNote, onNoteUpdated }) => {
       setTitle('');
       setContent('');
     } catch (err) {
+      setError(err.response?.data?.detail || 'Failed to save note');
       console.error('Error:', err);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="mb-6 bg-white p-6 rounded-lg shadow-md">
+      {error && <p className="text-red-500 mb-4">{error}</p>}
       <div className="mb-4">
         <input
           type="text"
@@ -48,7 +56,7 @@ const NoteForm = ({ onNoteAdded, editingNote, onNoteUpdated }) => {
         type="submit"
         className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
       >
-        {editingNote ? 'Update' : 'Add'} Note
+        {editingNote ? 'Update Note' : 'Add Note'}
       </button>
     </form>
   );
